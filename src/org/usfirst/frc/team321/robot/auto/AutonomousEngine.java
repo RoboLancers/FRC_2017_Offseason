@@ -27,7 +27,7 @@ public class AutonomousEngine implements Runnable {
 		step = 0;
 		mode = 1;
 		
-		manager = new AutonomousManager(this.robot);
+		manager = new AutonomousManager();
 	}
 
 	public void displayMode() {

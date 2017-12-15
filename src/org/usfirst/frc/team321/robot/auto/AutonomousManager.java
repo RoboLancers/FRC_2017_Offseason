@@ -14,16 +14,13 @@ import com.team254.lib.trajectory.WaypointSequence;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousManager {
-	  
-	Robot robot;
+	
 	public ArrayList<AutonomousMode> modes = new ArrayList<AutonomousMode>();
 
-	AutonomousManager(Robot robot){
-		this.robot = robot;
-		
+	AutonomousManager(){
 		modes.add(new DoNothingFailsafe());
 		modes.add(new DoNothing());
-		modes.add(new CrossBaseline(robot));
+		modes.add(new CrossBaseline());
 		//modes.add(new CenterPeg(robot));
 	}
 	
@@ -109,56 +106,40 @@ public class AutonomousManager {
 	public class DoNothing extends AutonomousMode {
 		
 		DoNothing(){
-			
+			super("DoNothing");
 		}
 
 		@Override
 		public void run() {
 			System.out.println("Explicitly told not to move");
 		}
-
-		@Override
-		public String getName() {
-			return "DoNothing";
-		}
-		
 	}
 	
 
 	public class DoNothingFailsafe extends AutonomousMode {
 		
 		DoNothingFailsafe(){
-			
+			super("DoNothingFailsafe");
 		}
 
 		@Override
 		public void run() {
 			System.out.println("This shouldn't be running - Mode 0 selected for some reason");
 		}
-
-		@Override
-		public String getName() {
-			return "DoNothingFailsafe";
-		}
-		
 	}
 	
 	public class CrossBaseline extends AutonomousMode {
 
 		Path path;
-		CrossBaseline(Robot r) {
-			super(r);
-			TrajectoryGenerator.Config config = new TrajectoryGenerator.Config();
-			config.dt = .05;
-			config.max_acc = 9.0;//4.5; //prev 5.0
-			config.max_jerk = 25.0;
-			config.max_vel = 10.0;//5.0;
+		
+		CrossBaseline() {
+			super("CrossBaseline");
 			
-			WaypointSequence p = new WaypointSequence(10);
-			p.addWaypoint(new WaypointSequence.Waypoint(0.0, 0.0, 0.0));
-			p.addWaypoint(new WaypointSequence.Waypoint(14.0, 0.0, 0.0));
+			WaypointSequence sequence = new WaypointSequence(10);
+			sequence.addWaypoint(new WaypointSequence.Waypoint(0.0, 0.0, 0.0));
+			sequence.addWaypoint(new WaypointSequence.Waypoint(14.0, 0.0, 0.0));
 			
-			path = PathGenerator.makePath(p, config, Constants.kWheelbaseWidth, "CrossBaseline");
+			path = generatePath(sequence);
 		}
 		@Override
 		public void run() {
@@ -167,12 +148,6 @@ public class AutonomousManager {
 			
 			DrivetrainProfileDriver driver = new DrivetrainProfileDriver(path);
 			driver.followPathBACKWARDS();
-		}
-
-		@Override
-		public String getName() {
-			// TODO Auto-generated method stub
-			return "CrossBaseline";
 		}
 		
 	}
