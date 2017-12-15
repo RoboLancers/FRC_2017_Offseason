@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team321.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team321.robot.subsystems.GearShifter;
 import org.usfirst.frc.team321.robot.subsystems.Pneumatics;
 
 /**
@@ -23,7 +22,6 @@ public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
 	public static Pneumatics pneumatics;
-	public static GearShifter gearShifter;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -37,7 +35,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		drivetrain = new Drivetrain();
 		pneumatics = new Pneumatics();
-		gearShifter = new GearShifter();
 		oi = new OI();
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
@@ -50,7 +47,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		
 	}
 
 	@Override
@@ -108,6 +105,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.putNumber("Left Encoder", drivetrain.getLeftEncoderDistance());
+		SmartDashboard.putNumber("Right Encoder", drivetrain.getRightEncoderDistance());
 		Scheduler.getInstance().run();
 	}
 

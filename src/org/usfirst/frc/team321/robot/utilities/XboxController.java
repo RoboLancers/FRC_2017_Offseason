@@ -77,25 +77,25 @@ public class XboxController extends Controller {
 	
 	public double getLeftYAxisValue(){
 		if(Math.abs(this.joystick.getRawAxis(LEFT_Y_ID)) > tolerance){
-			return this.joystick.getRawAxis(LEFT_Y_ID);
+			return -getRawLeftYAxisValue();
 		}else{
 			return 0;
 		}
 	}
 	
-	public double getRawLeftYAxisValue() {
+	private double getRawLeftYAxisValue() {
 		return this.joystick.getRawAxis(LEFT_Y_ID);
 	}
 	
 	public double getRightYAxisValue(){
 		if(Math.abs(this.joystick.getRawAxis(RIGHT_Y_ID)) > tolerance){
-			return this.joystick.getRawAxis(RIGHT_Y_ID);
+			return -getRawRightYAxisValue();
 		}else{
 			return 0;
 		}
 	}
 	
-	public double getRawRightYAxisValue() {
+	private double getRawRightYAxisValue() {
 		return this.joystick.getRawAxis(RIGHT_Y_ID);
 	}
 	
