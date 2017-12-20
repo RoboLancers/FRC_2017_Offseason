@@ -39,7 +39,7 @@ public class AutonomousManager {
 		}
 	}
 	
-	public AutonomousMode getModeByIndex (int index){
+	public AutonomousMode getModeByIndex(int index){
 		try {
 			return modes.get(index);
 		} catch (IndexOutOfBoundsException e){
@@ -149,6 +149,5 @@ public class AutonomousManager {
 			DrivetrainProfileDriver driver = new DrivetrainProfileDriver(path);
 			driver.followPathBACKWARDS();
 		}
-		
 	}
 }

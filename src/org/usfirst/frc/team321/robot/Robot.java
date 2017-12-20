@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team321.robot.commands.AutoCode;
 import org.usfirst.frc.team321.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team321.robot.subsystems.Pneumatics;
 
@@ -36,7 +37,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new Drivetrain();
 		pneumatics = new Pneumatics();
 		oi = new OI();
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		chooser.addDefault("Autonhomas", new AutoCode());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
