@@ -1,16 +1,13 @@
 
 package org.usfirst.frc.team321.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team321.robot.commands.AutoCode;
+import org.usfirst.frc.team321.robot.auto.AutonomousEngine;
 import org.usfirst.frc.team321.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team321.robot.subsystems.Pneumatics;
+import org.usfirst.frc.team321.robot.subsystems.Sensors;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,11 +19,15 @@ import org.usfirst.frc.team321.robot.subsystems.Pneumatics;
 public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
-	public static Pneumatics pneumatics;
+	public static Sensors sensors;
+	public static DashboardTable dashboardTable;
 	public static OI oi;
 
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	public static String gameData;
+
+	private AutonomousEngine autoEngine;
+	private Thread autoThread;
+	private boolean autoModeRan = false;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -35,10 +36,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		drivetrain = new Drivetrain();
-		pneumatics = new Pneumatics();
+		sensors = new Sensors();
+		dashboardTable = new DashboardTable();
 		oi = new OI();
-		chooser.addDefault("Autonhomas", new AutoCode());
-		SmartDashboard.putData("Auto mode", chooser);
+
+		autoEngine = new AutonomousEngine();
 	}
 
 	/**
@@ -48,11 +50,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		
+
 	}
 
 	@Override
 	public void disabledPeriodic() {
+		dashboardTable.update();
+		if (autoModeRan) {
+			autoModeRan = false;
+
+			if (autoThread.isAlive()) {
+				autoThread.interrupt();
+			}
+		}
 		Scheduler.getInstance().run();
 	}
 
@@ -69,18 +79,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		autoThread = new Thread(autoEngine);
+		autoThread.start();
+		autoModeRan = true;
 	}
 
 	/**
@@ -88,17 +91,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+		dashboardTable.update();
 		Scheduler.getInstance().run();
 	}
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
 	}
 
 	/**
@@ -106,8 +104,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putNumber("Left Encoder", drivetrain.getLeftEncoderDistance());
-		SmartDashboard.putNumber("Right Encoder", drivetrain.getRightEncoderDistance());
+		dashboardTable.update();
+
+		double seconds_remaining = DriverStation.getInstance().getMatchTime();
+		if (seconds_remaining > 15) {
+			SmartDashboard.putBoolean("shutdown", true);
+		}
 		Scheduler.getInstance().run();
 	}
 
@@ -116,6 +118,5 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		LiveWindow.run();
 	}
 }

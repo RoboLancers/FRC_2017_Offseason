@@ -1,8 +1,6 @@
 package org.usfirst.frc.team321.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
-import org.usfirst.frc.team321.robot.OI;
 import org.usfirst.frc.team321.robot.Robot;
 
 public class UseDrivetrain extends Command {
@@ -17,8 +15,8 @@ public class UseDrivetrain extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.setLeftMotors(OI.drive.getLeftYAxisValue());
-		Robot.drivetrain.setRightMotors(OI.drive.getRightYAxisValue());
+		Robot.drivetrain.setLeftMotors(Robot.oi.drive.getLeftYAxisValue());
+		Robot.drivetrain.setRightMotors(Robot.oi.drive.getRightYAxisValue());
 	}
 
 	@Override

@@ -1,17 +1,15 @@
 package org.usfirst.frc.team321.robot;
 
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.usfirst.frc.team321.robot.utilities.Utilities;
-
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.Trajectory;
 import com.team254.lib.trajectory.Trajectory.Segment;
-
 import edu.wpi.first.wpilibj.Notifier;
+import org.usfirst.frc.team321.robot.utilities.Utilities;
 
-public class DrivetrainProfileDriver {
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class DriveTrainProfileDriver {
 	private double dtSeconds;
 	private ArrayList<Segment> leftVelPts, rightVelPts;
 	private int numPoints;
@@ -63,7 +61,7 @@ public class DrivetrainProfileDriver {
 
 	Notifier pointExecutor = new Notifier(new PeriodicRunnable());
 
-	public DrivetrainProfileDriver(Path path) {
+    public DriveTrainProfileDriver(Path path) {
 		//this.path = path;
 		this.leftVelPts = new ArrayList<Segment>();
 		this.rightVelPts = new ArrayList<Segment>();
