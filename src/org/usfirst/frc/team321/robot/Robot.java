@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team321.robot.auto.AutonomousEngine;
 import org.usfirst.frc.team321.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team321.robot.subsystems.GearShifter;
+import org.usfirst.frc.team321.robot.subsystems.Pneumatics;
 import org.usfirst.frc.team321.robot.subsystems.Sensors;
 
 /**
@@ -19,11 +21,14 @@ import org.usfirst.frc.team321.robot.subsystems.Sensors;
 public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
+	public static Pneumatics pneumatics;
 	public static Sensors sensors;
+	public static GearShifter gearShifter;
 	public static DashboardTable dashboardTable;
 	public static OI oi;
 
-	public static String gameData;
+	public static String gameData = "";
+	public static String autoMode = "";
 
 	private AutonomousEngine autoEngine;
 	private Thread autoThread;
@@ -36,11 +41,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		drivetrain = new Drivetrain();
+		pneumatics = new Pneumatics();
 		sensors = new Sensors();
+		gearShifter = new GearShifter();
 		dashboardTable = new DashboardTable();
 		oi = new OI();
-
-		autoEngine = new AutonomousEngine();
 	}
 
 	/**
@@ -72,7 +77,7 @@ public class Robot extends IterativeRobot {
 	 * chooser code works with the Java SmartDashboard. If you prefer the
 	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
 	 * getString code to get the auto name from the text box below the Gyro
-	 *
+	 *  nnx7]
 	 * You can add additional auto modes by adding additional commands to the
 	 * chooser code above (like the commented example) or additional comparisons
 	 * to the switch structure below with additional strings & commands.
@@ -80,7 +85,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-
+		
+		dashboardTable.update();
+		autoMode = dashboardTable.getAutoMode();
+		
+		autoEngine = new AutonomousEngine();
 		autoThread = new Thread(autoEngine);
 		autoThread.start();
 		autoModeRan = true;
@@ -96,8 +105,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	@Override
-	public void teleopInit() {
-	}
+	public void teleopInit() {}
 
 	/**
 	 * This function is called periodically during operator control

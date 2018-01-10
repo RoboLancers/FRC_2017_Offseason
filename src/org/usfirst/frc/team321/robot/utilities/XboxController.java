@@ -8,8 +8,8 @@ public class XboxController extends Controller {
 	
 	public static int LEFT_X_ID = 0;
 	public static int LEFT_Y_ID = 1;
-	public static int RIGHT_X_ID = 4;
-	public static int RIGHT_Y_ID = 5;
+	public static int RIGHT_X_ID = 2;
+	public static int RIGHT_Y_ID = 3;
 	public static int A_ID = 2;
 	public static int B_ID = 3;
 	public static int X_ID = 1;

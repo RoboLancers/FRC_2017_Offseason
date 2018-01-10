@@ -17,7 +17,6 @@ public class Drivetrain extends Subsystem {
 	
 	private Spark topLeft, midLeft, botLeft, topRight, midRight, botRight;
 	private Encoder leftEncoder, rightEncoder;
-	private LancerPID pid;
 	
     public static final double kDistancePerRevolution = 2 * Math.PI * 4;
     public static final double kPulsesPerRevolution = 256;
@@ -36,17 +35,15 @@ public class Drivetrain extends Subsystem {
 		midRight = new Spark(Constants.MIDRIGHT);
 		botRight = new Spark(Constants.BOTRIGHT);
 		
-		topLeft.setInverted(true);
-		midLeft.setInverted(true);
-		botLeft.setInverted(true);
+		topRight.setInverted(true);
+		midRight.setInverted(true);
+		botRight.setInverted(true);
 		
 		leftEncoder = new Encoder(0, 1, true, EncodingType.k4X);
 		rightEncoder = new Encoder(2, 3, false, EncodingType.k4X);
 		
 		leftEncoder.setDistancePerPulse(kDistancePerPulse);
 		rightEncoder.setDistancePerPulse(kDistancePerPulse);
-		
-		pid = new LancerPID(0, 0, 0);
 	}
 	
 	public double getRightEncoderDistance(){

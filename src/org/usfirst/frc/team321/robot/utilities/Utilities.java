@@ -8,7 +8,7 @@ public class Utilities {
 	}
 	
 	public static double feetPerSecondToPWM(double ftPerSec) {
-		return ftPerSec * 0.05;
+		return ftPerSec * 0.2;
 	}
 
     public static double floor(double num, int places) {

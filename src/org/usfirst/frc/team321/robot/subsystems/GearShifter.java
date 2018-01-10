@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearShifter extends Subsystem {
 	
-	public static DoubleSolenoid gearShifter;
+	public DoubleSolenoid gearShifter;
 	
 	public GearShifter(){
 		gearShifter = new DoubleSolenoid(RobotMap.GEARSHIFTER_FORWARD,RobotMap.GEARSHIFTER_REVERSE);

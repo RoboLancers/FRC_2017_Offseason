@@ -15,8 +15,8 @@ public class UseDrivetrain extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.setLeftMotors(Robot.oi.drive.getLeftYAxisValue());
-		Robot.drivetrain.setRightMotors(Robot.oi.drive.getRightYAxisValue());
+		Robot.drivetrain.setLeftMotors(-Robot.oi.drive.getLeftYAxisValue());
+		Robot.drivetrain.setRightMotors(-Robot.oi.drive.getRightYAxisValue());
 	}
 
 	@Override
