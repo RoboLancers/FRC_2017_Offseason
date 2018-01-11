@@ -46,6 +46,8 @@ public class Robot extends IterativeRobot {
 		gearShifter = new GearShifter();
 		dashboardTable = new DashboardTable();
 		oi = new OI();
+
+        autoEngine = new AutonomousEngine();
 	}
 
 	/**
@@ -85,11 +87,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		
-		dashboardTable.update();
-		autoMode = dashboardTable.getAutoMode();
-		
-		autoEngine = new AutonomousEngine();
+
 		autoThread = new Thread(autoEngine);
 		autoThread.start();
 		autoModeRan = true;
@@ -115,7 +113,7 @@ public class Robot extends IterativeRobot {
 		dashboardTable.update();
 
 		double seconds_remaining = DriverStation.getInstance().getMatchTime();
-		if (seconds_remaining > 15) {
+        if (seconds_remaining > 15 && DriverStation.getInstance().isOperatorControl()) {
 			SmartDashboard.putBoolean("shutdown", true);
 		}
 		Scheduler.getInstance().run();

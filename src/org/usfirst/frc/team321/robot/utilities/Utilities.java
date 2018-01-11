@@ -1,15 +1,20 @@
 package org.usfirst.frc.team321.robot.utilities;
 
+import org.usfirst.frc.team321.robot.Constants;
 import org.usfirst.frc.team321.robot.subsystems.Drivetrain;
 
 public class Utilities {
 	public static final double feetToRotations(double feet) {
 		return (360 / Drivetrain.kDistancePerRevolution) * feet;
 	}
-	
-	public static double feetPerSecondToPWM(double ftPerSec) {
-		return ftPerSec * 0.2;
-	}
+
+    public static double feetPerSecondToRPM(double ftPerSec) {
+        return (ftPerSec) / (Constants.WHEEL_RADIUS * 0.10472);
+    }
+
+    public static double feetPerSecondToPWM(double ftPerSec) {
+        return feetPerSecondToRPM(ftPerSec) * 0.0001883;
+    }
 
     public static double floor(double num, int places) {
         double multiplier = Math.pow(10, places);

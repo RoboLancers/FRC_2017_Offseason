@@ -6,7 +6,6 @@ public class AutonomousEngine implements Runnable {
 	private AutonomousManager autonomousManager;
 
 	public AutonomousEngine() {
-		Robot.autoMode = Robot.dashboardTable.getAutoMode();
 		autonomousManager = new AutonomousManager();
 	}
 	

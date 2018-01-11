@@ -1,16 +1,15 @@
 package org.usfirst.frc.team321.robot.subsystems;
 
-import org.usfirst.frc.team321.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team321.robot.Constants;
 
 public class GearShifter extends Subsystem {
 	
 	public DoubleSolenoid gearShifter;
 	
 	public GearShifter(){
-		gearShifter = new DoubleSolenoid(RobotMap.GEARSHIFTER_FORWARD,RobotMap.GEARSHIFTER_REVERSE);
+        gearShifter = new DoubleSolenoid(Constants.GEARSHIFTER_FORWARD, Constants.GEARSHIFTER_REVERSE);
 		gearShifter.set(DoubleSolenoid.Value.kForward);
 	}
 	
