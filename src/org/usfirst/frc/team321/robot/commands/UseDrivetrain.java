@@ -3,6 +3,8 @@ package org.usfirst.frc.team321.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team321.robot.Robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 public class UseDrivetrain extends Command {
 	
 	public UseDrivetrain() {
@@ -15,8 +17,8 @@ public class UseDrivetrain extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.setLeftMotors(-Robot.oi.drive.getLeftYAxisValue());
-		Robot.drivetrain.setRightMotors(-Robot.oi.drive.getRightYAxisValue());
+		Robot.drivetrain.getLeftMaster().set(ControlMode.PercentOutput, -Robot.oi.drive.getLeftYAxisValue());
+		Robot.drivetrain.getRightMaster().set(ControlMode.PercentOutput, -Robot.oi.drive.getRightYAxisValue());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team321.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.Trajectory;
 import com.team254.lib.trajectory.Trajectory.Segment;
@@ -61,11 +62,11 @@ public class DrivetrainProfileDriver {
                 if (interrupt.get()) throw new Exception("Interrupting profile");
 
 	    		if (runBACKWARDS){
-                    Robot.drivetrain.setLeftMotors(Utilities.feetPerSecondToPWM(rightVelPts.get((int) step).vel));
-	    			Robot.drivetrain.setLeftMotors(Utilities.feetPerSecondToPWM(leftVelPts.get((int)step).vel));
+                    Robot.drivetrain.getRightMaster().set(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel));
+	    			Robot.drivetrain.getLeftMaster().set(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
 	    		} else {
-	    			Robot.drivetrain.setLeftMotors(-Utilities.feetPerSecondToPWM(leftVelPts.get((int)step).vel));
-	    			Robot.drivetrain.setRightMotors(-Utilities.feetPerSecondToPWM(rightVelPts.get((int)step).vel));
+	    			Robot.drivetrain.getLeftMaster().set(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
+	    			Robot.drivetrain.getRightMaster().set(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int)step).vel));
 	    		}
 	    	} catch (Exception e) {
 	    		pointExecutor.stop();

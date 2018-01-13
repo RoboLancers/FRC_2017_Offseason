@@ -1,88 +1,101 @@
 package org.usfirst.frc.team321.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team321.robot.Constants;
 import org.usfirst.frc.team321.robot.commands.UseDrivetrain;
-import org.usfirst.frc.team321.robot.utilities.LancerPID;
-import org.usfirst.frc.team321.robot.utilities.Utilities;
-
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
 public class Drivetrain extends Subsystem {
+	private TalonSRX masterLeft, slaveLeft1, slaveLeft2, masterRight, slaveRight1, slaveRight2;
 	
-	private Spark topLeft, midLeft, botLeft, topRight, midRight, botRight;
-	private Encoder leftEncoder, rightEncoder;
-	
-    public static final double kDistancePerRevolution = 2 * Math.PI * 4;
-    public static final double kPulsesPerRevolution = 256;
-    public static final double kDistancePerPulse = kDistancePerRevolution / kPulsesPerRevolution;
-	
-	/**
-	 * Initializes drivetrain motors
-	 * @param left Amount of motors on the left side
-	 * @param right Amount of motors on the right side
-	 */
-	public Drivetrain(){
-		topLeft = new Spark(Constants.TOPLEFT);
-		midLeft = new Spark(Constants.MIDLEFT);
-		botLeft = new Spark(Constants.BOTLEFT);
-		topRight = new Spark(Constants.TOPRIGHT);
-		midRight = new Spark(Constants.MIDRIGHT);
-		botRight = new Spark(Constants.BOTRIGHT);
+	public Drivetrain() {
+        masterLeft = new TalonSRX(Constants.TOPLEFT);
+        slaveLeft1 = new TalonSRX(Constants.MIDLEFT);
+        slaveLeft2 = new TalonSRX(Constants.BOTLEFT);
+
+        masterRight = new TalonSRX(Constants.TOPRIGHT);
+        slaveRight1 = new TalonSRX(Constants.MIDRIGHT);
+        slaveRight2 = new TalonSRX(Constants.BOTRIGHT);
 		
-		topRight.setInverted(true);
-		midRight.setInverted(true);
-		botRight.setInverted(true);
-		
-		leftEncoder = new Encoder(0, 1, true, EncodingType.k4X);
-		rightEncoder = new Encoder(2, 3, false, EncodingType.k4X);
-		
-		leftEncoder.setDistancePerPulse(kDistancePerPulse);
-		rightEncoder.setDistancePerPulse(kDistancePerPulse);
+		setUpTalons();
 	}
-	
-	public double getRightEncoderDistance(){
-		return rightEncoder.getDistance();
+
+    public void setLeftMotors(ControlMode mode, double value) {
+        if (mode == ControlMode.Follower) {
+            slaveLeft1.set(mode, value);
+            slaveLeft2.set(mode, value);
+        } else {
+            masterLeft.set(mode, value);
+        }
 	}
-	
-	public double getLeftEncoderDistance(){
-		return leftEncoder.getDistance();
-	}
-	
-	public int getRawLeftEncoderCount(){
-		return leftEncoder.get();
-	}
-	
-	public int getRawRightEncoderCount(){
-		return rightEncoder.get();
+
+    public void setRightMotors(ControlMode mode, double value) {
+        if (mode == ControlMode.Follower) {
+            slaveRight1.set(mode, value);
+            slaveRight1.set(mode, value);
+        } else {
+            masterRight.set(mode, value);
+        }
 	}
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new UseDrivetrain());
 	}
 	
-	public void setLeftMotors(double power) {
-		power = Utilities.range(power, -1, 1);
-		topLeft.set(power);
-		midLeft.set(power);
-		botLeft.set(power);
+	private void setUpTalons() {
+        setLeftMotors(ControlMode.Follower, masterLeft.getDeviceID());
+        setRightMotors(ControlMode.Follower, masterRight.getDeviceID());
+
+        masterLeft.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.PIDLoopIDX, Constants.TIMEOUT);
+        masterLeft.configPeakOutputForward(1, Constants.TIMEOUT);
+        masterLeft.configPeakOutputReverse(-1, Constants.TIMEOUT);
+        masterLeft.configNominalOutputForward(0, Constants.TIMEOUT);
+        masterLeft.configNominalOutputReverse(0, Constants.TIMEOUT);
+        masterLeft.configOpenloopRamp(0, Constants.TIMEOUT);
+        masterLeft.configClosedloopRamp(0, Constants.TIMEOUT);
+        masterLeft.setNeutralMode(NeutralMode.Coast);
+        masterLeft.setSensorPhase(true);
+        masterLeft.setInverted(true);
+        masterLeft.config_kF(Constants.PIDLoopIDX, Constants.kF, Constants.TIMEOUT);
+        masterLeft.config_kP(Constants.PIDLoopIDX, Constants.kP, Constants.TIMEOUT);
+        masterLeft.config_kI(Constants.PIDLoopIDX, Constants.kI, Constants.TIMEOUT);
+        masterLeft.config_kD(Constants.PIDLoopIDX, Constants.kD, Constants.TIMEOUT);
+
+        masterRight.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.PIDLoopIDX, Constants.TIMEOUT);
+        masterRight.configPeakOutputForward(1, Constants.TIMEOUT);
+        masterRight.configPeakOutputReverse(-1, Constants.TIMEOUT);
+        masterRight.configNominalOutputForward(0, Constants.TIMEOUT);
+        masterRight.configNominalOutputReverse(0, Constants.TIMEOUT);
+        masterRight.configOpenloopRamp(0, Constants.TIMEOUT);
+        masterRight.configClosedloopRamp(0, Constants.TIMEOUT);
+        masterRight.setNeutralMode(NeutralMode.Coast);
+        masterRight.setSensorPhase(false);
+        masterRight.setInverted(false);
+        masterRight.config_kF(Constants.PIDLoopIDX, Constants.kF, Constants.TIMEOUT);
+        masterRight.config_kP(Constants.PIDLoopIDX, Constants.kP, Constants.TIMEOUT);
+        masterRight.config_kI(Constants.PIDLoopIDX, Constants.kI, Constants.TIMEOUT);
+        masterRight.config_kD(Constants.PIDLoopIDX, Constants.kD, Constants.TIMEOUT);
 	}
-	
-	public void setRightMotors(double power) {
-		power = Utilities.range(power, -1, 1);
-		topRight.set(power);
-		midRight.set(power);
-		botRight.set(power);
+
+    public TalonSRX getLeftMaster() {
+		return masterLeft;
 	}
-	
-	public void setAllMotors(double power) {
-		setLeftMotors(power);
-		setRightMotors(power);
+
+    public TalonSRX getRightMaster() {
+		return masterRight;
 	}
-	
+
+    public TalonSRX getLeftSlave() {
+        return slaveLeft1;
+    }
+
+    public TalonSRX getRightSlave() {
+        return slaveRight1;
+    }
 }

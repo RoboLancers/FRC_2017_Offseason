@@ -26,4 +26,15 @@ public class Constants {
     public static final double MAX_ACCELERATION = 4.0;
 	public static final double MAX_JERK = 25.0;
     public static final double MAX_VELOCITY = 5.0;
+    
+	public static final int PIDLoopIDX = 0;
+	public static final int TIMEOUT = 0;
+	
+	public static final double wheelbaseWidth = 29.872 / 12.0;
+	public static final double nativePerFoot = 3893.020921; //2172.99549;
+	
+	public static double kF = 0;
+	public static double kP = 0;
+	public static double kI = 0;
+	public static double kD = 0;
 }
