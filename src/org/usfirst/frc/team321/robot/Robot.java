@@ -3,6 +3,7 @@ package org.usfirst.frc.team321.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team321.robot.auto.AutonomousEngine;
@@ -27,11 +28,11 @@ public class Robot extends IterativeRobot {
 	public static DashboardTable dashboardTable;
 	public static OI oi;
 
-	public static String gameData = "";
-	public static String autoMode = "";
+	public static String gameData = "   ";
+	public static String autoMode = "DoNothingFailsafe";
 
 	private AutonomousEngine autoEngine;
-	private Thread autoThread;
+	private Thread autoThread = null;
 	private boolean autoModeRan = false;
 
 	/**
@@ -48,6 +49,38 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
         autoEngine = new AutonomousEngine();
+	}
+	
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable
+	 * chooser code works with the Java SmartDashboard. If you prefer the
+	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	 * getString code to get the auto name from the text box below the Gyro
+	 *  nnx7]
+	 * You can add additional auto modes by adding additional commands to the
+	 * chooser code above (like the commented example) or additional comparisons
+	 * to the switch structure below with additional strings & commands.
+	 */
+	@Override
+	public void autonomousInit() {
+		dashboardTable.update();
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		autoMode = dashboardTable.getAutoMode();
+		
+		autoThread = new Thread(autoEngine);
+		autoThread.start();
+		autoModeRan = true;
+	}
+
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		dashboardTable.update();
+		Scheduler.getInstance().run();
 	}
 
 	/**
@@ -68,37 +101,10 @@ public class Robot extends IterativeRobot {
 
 			if (autoThread.isAlive()) {
 				autoThread.interrupt();
+			}else{
+				System.out.println("Ending Auto");
 			}
 		}
-		Scheduler.getInstance().run();
-	}
-
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *  nnx7]
-	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
-	@Override
-	public void autonomousInit() {
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-
-		autoThread = new Thread(autoEngine);
-		autoThread.start();
-		autoModeRan = true;
-	}
-
-	/**
-	 * This function is called periodically during autonomous
-	 */
-	@Override
-	public void autonomousPeriodic() {
-		dashboardTable.update();
 		Scheduler.getInstance().run();
 	}
 

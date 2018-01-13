@@ -19,6 +19,8 @@ public class DrivetrainProfileDriver {
 	private long step;
 	private boolean runBACKWARDS = false;
 	private AtomicBoolean interrupt = new AtomicBoolean(false);
+	private long startTime;
+	private boolean firstTime;
 
     public DrivetrainProfileDriver(Path path) {
         //this.path = path;
@@ -38,9 +40,6 @@ public class DrivetrainProfileDriver {
     Notifier pointExecutor = new Notifier(new PeriodicRunnable());
 
 	private class PeriodicRunnable implements java.lang.Runnable {
-		private long startTime;
-		private boolean firstTime;
-
 		public PeriodicRunnable() {
 			firstTime = true;
 		}
@@ -57,16 +56,17 @@ public class DrivetrainProfileDriver {
 	    		done = false;
 	    	}
 	    	step = (System.currentTimeMillis() - startTime) / (long)(dtSeconds * 1000);
-	    	//System.out.print("step: " + step);
+	    	System.out.println("step: " + step);
 	    	try {
                 if (interrupt.get()) throw new Exception("Interrupting profile");
 
 	    		if (runBACKWARDS){
-                    Robot.drivetrain.getRightMaster().set(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel));
-	    			Robot.drivetrain.getLeftMaster().set(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
+                    Robot.drivetrain.setRightMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel));
+	    			Robot.drivetrain.setLeftMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
 	    		} else {
-	    			Robot.drivetrain.getLeftMaster().set(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
-	    			Robot.drivetrain.getRightMaster().set(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int)step).vel));
+	    			Robot.drivetrain.setRightMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
+	    			Robot.drivetrain.setRightMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int)step).vel));
+	    			System.out.println("Running: " + Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
 	    		}
 	    	} catch (Exception e) {
 	    		pointExecutor.stop();
@@ -96,7 +96,7 @@ public class DrivetrainProfileDriver {
 	
 	public void followPath() {
 		runBACKWARDS = false;
-		System.out.println("pointExecutor.startPeriodic(" + dtSeconds / 2.0);
+		System.out.println("pointExecutor.startPeriodic(" + dtSeconds / 2.0 + ")");
 		pointExecutor.startPeriodic(dtSeconds / 2.0);
-	}	
+	}
 }

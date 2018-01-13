@@ -17,7 +17,7 @@ public class AutoRunSide extends AutonomousMode {
 
         WaypointSequence waypoint_0 = new WaypointSequence(10);
         waypoint_0.addWaypoint(new WaypointSequence.Waypoint(0.0, 0.0, 0.0));
-        waypoint_0.addWaypoint(new WaypointSequence.Waypoint(12.0, 0.0, 0.0));
+        waypoint_0.addWaypoint(new WaypointSequence.Waypoint(12.0, 12.0, 0.0));
 
         path = PathGenerator.makePath(waypoint_0, config, Constants.WHEELBASE_WIDTH, name);
     }

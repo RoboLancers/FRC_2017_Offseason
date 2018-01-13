@@ -7,13 +7,12 @@ package org.usfirst.frc.team321.robot;
  * floating around.
  */
 public class Constants {
-	public static final int TOPLEFT = 1;
-	public static final int MIDLEFT = 2;
-	public static final int BOTLEFT = 6;
-
-	public static final int TOPRIGHT = 4;
-	public static final int MIDRIGHT = 5;
-    public static final int BOTRIGHT = 3;
+	public static final int TOPLEFT = 5;
+	public static final int MIDLEFT = 1;
+	public static final int BOTLEFT = 3;
+	public static final int TOPRIGHT = 8;
+	public static final int MIDRIGHT = 4;
+	public static final int BOTRIGHT = 2;
 
 	public static final int COMPRESSOR = 0;
 	public static final int GEARSHIFTER_FORWARD = 2;
@@ -30,7 +29,6 @@ public class Constants {
 	public static final int PIDLoopIDX = 0;
 	public static final int TIMEOUT = 0;
 	
-	public static final double wheelbaseWidth = 29.872 / 12.0;
 	public static final double nativePerFoot = 3893.020921; //2172.99549;
 	
 	public static double kF = 0;

@@ -8,20 +8,19 @@ public class XboxController extends Controller {
 	
 	public static int LEFT_X_ID = 0;
 	public static int LEFT_Y_ID = 1;
-	public static int RIGHT_X_ID = 2;
-	public static int RIGHT_Y_ID = 3;
-	public static int A_ID = 2;
-	public static int B_ID = 3;
-	public static int X_ID = 1;
+	public static int LT_ID = 2;
+	public static int RT_ID = 3;
+	public static int RIGHT_X_ID = 4;
+	public static int RIGHT_Y_ID = 5;
+	
+	public static int A_ID = 1;
+	public static int B_ID = 2;
+	public static int X_ID = 3;
 	public static int Y_ID = 4;
-	public static int LT_ID = 5;
-	public static int RT_ID = 6;
-	public static int LB_ID = 7;
-	public static int RB_ID = 8;
-	public static int SELECT_ID = 9;
-	public static int START_ID = 10;
-	public static int LEFT_JOY_BTN_ID = 11;
-	public static int RIGHT_JOY_BTN_ID = 12;
+	public static int LB_ID = 5;
+	public static int RB_ID = 6;
+	public static int SELECT_ID = 7;
+	public static int START_ID = 8;
 	
 	public XboxController(int port) {
 		super(port);
@@ -65,14 +64,6 @@ public class XboxController extends Controller {
 	
 	public Button start() {
 		return this.buttons[START_ID];
-	}
-	
-	public Button leftJoyBtn() {
-		return this.buttons[LEFT_JOY_BTN_ID];
-	}
-	
-	public Button rightJoyBtn() {
-		return this.buttons[RIGHT_JOY_BTN_ID];
 	}
 	
 	public double getLeftYAxisValue(){

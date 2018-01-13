@@ -1,5 +1,7 @@
 package com.team254.lib.trajectory;
 
+import com.team254.lib.trajectory.io.JavaSerializer;
+import com.team254.lib.trajectory.io.JavaStringSerializer;
 import com.team254.lib.trajectory.io.TextFileSerializer;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,7 +41,7 @@ public class Main {
   }
   
   public static void main(String[] args) {
-    String directory = "../FRC-2014/paths";
+    String directory = "../FRC-2017/paths";
     if (args.length >= 1) {
       directory = args[0];
     }
@@ -75,7 +77,7 @@ public class Main {
       //System.out.print(serialized);
       String fullpath = joinPath(directory, path_name + ".txt");
       if (!writeFile(fullpath, serialized)) {
-        System.err.println(fullpath + " could not be written!!!!1");
+        System.err.println(fullpath + " could not be written!!!!!");
         System.exit(1);
       } else {
         System.out.println("Wrote " + fullpath);

@@ -12,6 +12,6 @@ public class AutonomousEngine implements Runnable {
 	@Override
 	public void run() {
 		Robot.autoMode = Robot.dashboardTable.getAutoMode();
-		autonomousManager.getModeByName(Robot.autoMode).run();
+		autonomousManager.getModeByName("AutoRunSide").run();
 	}
 }
