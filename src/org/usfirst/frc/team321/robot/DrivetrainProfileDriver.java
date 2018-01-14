@@ -61,11 +61,12 @@ public class DrivetrainProfileDriver {
                 if (interrupt.get()) throw new Exception("Interrupting profile");
 
 	    		if (runBACKWARDS){
-                    Robot.drivetrain.setRightMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel));
-	    			Robot.drivetrain.setLeftMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
+                    Robot.rightDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel));
+                    Robot.leftDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel));
+                    System.out.println("Running: " + Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel));
 	    		} else {
-	    			Robot.drivetrain.setRightMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
-	    			Robot.drivetrain.setRightMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int)step).vel));
+                    Robot.leftDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel));
+                    Robot.rightDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel));
 	    			System.out.println("Running: " + Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
 	    		}
 	    	} catch (Exception e) {
