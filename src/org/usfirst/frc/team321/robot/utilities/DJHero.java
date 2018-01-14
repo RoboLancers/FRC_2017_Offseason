@@ -3,12 +3,12 @@ package org.usfirst.frc.team321.robot.utilities;
 import edu.wpi.first.wpilibj.buttons.Button;
 
 public class DJHero extends Controller {
-	
-	public static int TURN_TABLE = 3;
-	public static int BLUE_BUTTON = 1;
-	public static int GREEN_BUTTON = 2;
-	public static int RED_BUTTON = 3;
-	public static int BLACK_BUTTON = 4;
+
+	private static int TURN_TABLE = 3;
+	private static int BLUE_BUTTON = 1;
+	private static int GREEN_BUTTON = 2;
+	private static int RED_BUTTON = 3;
+	private static int BLACK_BUTTON = 4;
 	
 	private int multiplier = 5;
 	

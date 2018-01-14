@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-public abstract class Controller {
+abstract class Controller {
 	Joystick joystick;
 	Button[] buttons;
 	
@@ -12,8 +12,8 @@ public abstract class Controller {
 		this.joystick = new Joystick(port);
 		this.initializeButtons();
 	}
-	
-	void initializeButtons() {
+
+	private void initializeButtons() {
 		buttons = new JoystickButton[13];
 		
 		for(int i = 0; i < buttons.length; i++) {

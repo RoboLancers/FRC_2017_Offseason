@@ -2,9 +2,9 @@
 package org.usfirst.frc.team321.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team321.robot.auto.AutonomousEngine;
 import org.usfirst.frc.team321.robot.subsystems.Drivetrain;
@@ -19,14 +19,16 @@ import org.usfirst.frc.team321.robot.subsystems.Sensors;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 
-	public static Drivetrain drivetrain;
+    public static Drivetrain leftDrive, rightDrive;
 	public static Pneumatics pneumatics;
 	public static Sensors sensors;
 	public static GearShifter gearShifter;
 	public static DashboardTable dashboardTable;
 	public static OI oi;
+
+    private DifferentialDrive drive;
 
 	public static String gameData = "   ";
 	public static String autoMode = "DoNothingFailsafe";
@@ -41,7 +43,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		drivetrain = new Drivetrain();
+        leftDrive = new Drivetrain(false, Constants.TOPLEFT, Constants.MIDLEFT, Constants.BOTLEFT);
+        rightDrive = new Drivetrain(true, Constants.TOPRIGHT, Constants.MIDRIGHT, Constants.BOTRIGHT);
 		pneumatics = new Pneumatics();
 		sensors = new Sensors();
 		gearShifter = new GearShifter();
@@ -49,6 +52,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 
         autoEngine = new AutonomousEngine();
+        drive = new DifferentialDrive(leftDrive.getMaster(), rightDrive.getMaster());
 	}
 	
 	/**
@@ -116,13 +120,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+        drive.arcadeDrive(oi.drive.getLeftYAxisNormalized(), oi.drive.getRightXAxisNormalized());
+
 		dashboardTable.update();
 
 		double seconds_remaining = DriverStation.getInstance().getMatchTime();
         if (seconds_remaining > 15 && DriverStation.getInstance().isOperatorControl()) {
 			SmartDashboard.putBoolean("shutdown", true);
 		}
-		Scheduler.getInstance().run();
+
+        Scheduler.getInstance().run();
 	}
 
 	/**

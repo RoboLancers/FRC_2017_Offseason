@@ -6,22 +6,22 @@ public class FlightStick extends Controller {
 	
 	private double tolerance = 0.1;
 
-	public static int STICK_X_ID = 0;
-	public static int STICK_Y_ID = 1;
-	public static int STICK_TURN_ID = 2;
-	public static int RUDDER_ID = 3;
-	public static int TRIGGER_ID = 1;
-	public static int SHOOTER_ID = 2;
-	public static int BOTTOM_LEFT_ID = 3;
-	public static int BOTTOM_RIGHT_ID = 4;
-	public static int TOP_LEFT_ID = 5;
-	public static int TOP_RIGHT_ID = 6;
-	public static int FAR_TOP_ID = 7;
-	public static int INNER_TOP_ID = 8;
-	public static int FAR_MIDDLE_ID = 9;
-	public static int INNER_MIDDLE_ID = 10;
-	public static int FAR_BOTTOM_ID = 11;
-	public static int INNER_BOTTOM_ID = 12;
+	private static int STICK_X_ID = 0;
+	private static int STICK_Y_ID = 1;
+	private static int STICK_TURN_ID = 2;
+	private static int RUDDER_ID = 3;
+	private static int TRIGGER_ID = 1;
+	private static int SHOOTER_ID = 2;
+	private static int BOTTOM_LEFT_ID = 3;
+	private static int BOTTOM_RIGHT_ID = 4;
+	private static int TOP_LEFT_ID = 5;
+	private static int TOP_RIGHT_ID = 6;
+	private static int FAR_TOP_ID = 7;
+	private static int INNER_TOP_ID = 8;
+	private static int FAR_MIDDLE_ID = 9;
+	private static int INNER_MIDDLE_ID = 10;
+	private static int FAR_BOTTOM_ID = 11;
+	private static int INNER_BOTTOM_ID = 12;
 	
 	
 	public FlightStick(int port) {

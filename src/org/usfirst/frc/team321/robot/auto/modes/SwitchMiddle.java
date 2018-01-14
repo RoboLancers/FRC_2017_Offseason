@@ -20,16 +20,15 @@ public class SwitchMiddle extends AutonomousMode {
         if (!Robot.gameData.equals("   ") && Robot.gameData.charAt(0) == 'L') {
             waypoints.addWaypoint(new WaypointSequence.Waypoint(0.0, 0.0, 0.0));
             waypoints.addWaypoint(new WaypointSequence.Waypoint(11, 2.5, 0.0));
-            path = PathGenerator.makePath(waypoints, config, Constants.WHEELBASE_WIDTH, name);
         } else if (!Robot.gameData.equals("   ") && Robot.gameData.charAt(0) == 'R') {
             waypoints.addWaypoint(new WaypointSequence.Waypoint(0.0, 0.0, 0.0));
             waypoints.addWaypoint(new WaypointSequence.Waypoint(11, -2.5, 0.0));
-            path = PathGenerator.makePath(waypoints, config, Constants.WHEELBASE_WIDTH, name);
         } else {
             waypoints.addWaypoint(new WaypointSequence.Waypoint(0.0, 0.0, 0.0));
-            waypoints.addWaypoint(new WaypointSequence.Waypoint(0.01, 0.01, 0.01));
-            path = PathGenerator.makePath(waypoints, config, Constants.WHEELBASE_WIDTH, name);
+            waypoints.addWaypoint(new WaypointSequence.Waypoint(0.0, 0.0, 0.0));
         }
+
+        path = PathGenerator.makePath(waypoints, config, Constants.WHEELBASE_WIDTH, name);
     }
 
     @Override

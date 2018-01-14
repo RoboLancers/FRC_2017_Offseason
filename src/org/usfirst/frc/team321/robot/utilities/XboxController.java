@@ -5,57 +5,49 @@ import edu.wpi.first.wpilibj.buttons.Button;
 public class XboxController extends Controller {
 	
 	private double tolerance = 0.1;
-	
-	public static int LEFT_X_ID = 0;
-	public static int LEFT_Y_ID = 1;
-	public static int LT_ID = 2;
-	public static int RT_ID = 3;
-	public static int RIGHT_X_ID = 4;
-	public static int RIGHT_Y_ID = 5;
-	
-	public static int A_ID = 1;
-	public static int B_ID = 2;
-	public static int X_ID = 3;
-	public static int Y_ID = 4;
-	public static int LB_ID = 5;
-	public static int RB_ID = 6;
-	public static int SELECT_ID = 7;
-	public static int START_ID = 8;
+
+    private static int LEFT_X_ID = 0;
+    private static int LEFT_Y_ID = 1;
+    private static int LEFT_TRIGGER_ID = 2;
+    private static int RIGHT_TRIGGER_ID = 3;
+    private static int RIGHT_X_ID = 4;
+    private static int RIGHT_Y_ID = 5;
+
+    private static int A_ID = 1;
+    private static int B_ID = 2;
+    private static int X_ID = 3;
+    private static int Y_ID = 4;
+    private static int LEFT_BACK_ID = 5;
+    private static int RIGHT_BACK_ID = 6;
+    private static int SELECT_ID = 7;
+    private static int START_ID = 8;
 	
 	public XboxController(int port) {
 		super(port);
 	}
-	
-	public Button A() {
+
+    public Button a() {
 		return this.buttons[A_ID];
 	}
-	
-	public Button B() {
+
+    public Button b() {
 		return this.buttons[B_ID];
 	}
-	
-	public Button X() {
+
+    public Button x() {
 		return this.buttons[X_ID];
 	}
-	
-	public Button Y() {
+
+    public Button y() {
 		return this.buttons[Y_ID];
 	}
-	
-	public Button LT() {
-		return this.buttons[LT_ID];
+
+    public Button LEFT_BACK() {
+        return this.buttons[LEFT_BACK_ID];
 	}
-	
-	public Button RT() {
-		return this.buttons[RT_ID];
-	}
-	
-	public Button LB() {
-		return this.buttons[LB_ID];
-	}
-	
-	public Button RB() {
-		return this.buttons[RB_ID];
+
+    public Button RIGHT_BACK() {
+        return this.buttons[RIGHT_BACK_ID];
 	}
 	
 	public Button select() {
@@ -65,25 +57,37 @@ public class XboxController extends Controller {
 	public Button start() {
 		return this.buttons[START_ID];
 	}
-	
-	public double getLeftYAxisValue(){
-		if(Math.abs(this.joystick.getRawAxis(LEFT_Y_ID)) > tolerance){
-			return -getRawLeftYAxisValue();
-		}else{
-			return 0;
-		}
+
+    public double getNormalizedLeftTriggerValue() {
+        double value = getRawLeftTriggerValue();
+        return Math.abs(value) > tolerance ? value : tolerance;
+    }
+
+    public double getRawLeftTriggerValue() {
+        return this.joystick.getRawAxis(LEFT_TRIGGER_ID);
+    }
+
+    public double getNormalizedRightTriggerValue() {
+        double value = getRawRightTriggerValue();
+        return Math.abs(value) > tolerance ? value : tolerance;
+    }
+
+    public double getRawRightTriggerValue() {
+        return this.joystick.getRawAxis(RIGHT_TRIGGER_ID);
+    }
+
+    public double getLeftYAxisValueNormalized() {
+        double value = getRawLeftYAxisValue();
+        return Math.abs(value) > tolerance ? Utilities.squareKeepSign(value) : tolerance;
 	}
 	
 	private double getRawLeftYAxisValue() {
 		return this.joystick.getRawAxis(LEFT_Y_ID);
 	}
-	
-	public double getRightYAxisValue(){
-		if(Math.abs(this.joystick.getRawAxis(RIGHT_Y_ID)) > tolerance){
-			return -getRawRightYAxisValue();
-		}else{
-			return 0;
-		}
+
+    public double getRightYAxisValueNormalized() {
+        double value = getRawRightYAxisValue();
+        return Math.abs(value) > tolerance ? Utilities.squareKeepSign(value) : tolerance;
 	}
 	
 	private double getRawRightYAxisValue() {
@@ -91,23 +95,17 @@ public class XboxController extends Controller {
 	}
 	
 	public double getLeftXAxisValue(){
-		if(Math.abs(this.joystick.getRawAxis(LEFT_X_ID)) > tolerance){
-			return this.joystick.getRawAxis(LEFT_X_ID);
-		}else{
-			return 0;
-		}
+        double value = getRawLeftXAxisValue();
+        return Math.abs(value) > tolerance ? Utilities.squareKeepSign(value) : tolerance;
 	}
 	
 	public double getRawLeftXAxisValue() {
 		return this.joystick.getRawAxis(LEFT_X_ID);
 	}
-	
-	public double getRightXAxisValue(){
-		if(Math.abs(this.joystick.getRawAxis(RIGHT_X_ID)) > tolerance){
-			return this.joystick.getRawAxis(RIGHT_X_ID);
-		}else{
-			return 0;
-		}
+
+    public double getRightXAxisValueNormalized() {
+        double value = getRawRightXAxisValue();
+        return Math.abs(value) > tolerance ? Utilities.squareKeepSign(value) : tolerance;
 	}
 	
 	public double getRawRightXAxisValue(){

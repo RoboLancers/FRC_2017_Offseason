@@ -1,14 +1,13 @@
 package org.usfirst.frc.team321.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team321.robot.Constants;
 import org.usfirst.frc.team321.robot.commands.RegulateCompressor;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.command.Subsystem;
-
 public class Pneumatics extends Subsystem {
-	
-	public Compressor compressor;
+
+	private Compressor compressor;
 	
 	public Pneumatics() {
 		compressor = new Compressor(Constants.COMPRESSOR);
@@ -28,15 +27,11 @@ public class Pneumatics extends Subsystem {
     		compressor.stop();
     	}
     }
-	
-	public boolean isCompressorSafeToUse(){	
-		if((compressor.getCompressorCurrentTooHighFault() && !compressor.getCompressorCurrentTooHighStickyFault()) ||
-  			(compressor.getCompressorNotConnectedFault() && !compressor.getCompressorNotConnectedStickyFault()) || 
-  			(compressor.getCompressorShortedFault() && !compressor.getCompressorShortedStickyFault())){
-			return false;
-	   	}else{
-	   		return true;
-		}
+
+	private boolean isCompressorSafeToUse() {
+		return (!compressor.getCompressorCurrentTooHighFault() || compressor.getCompressorCurrentTooHighStickyFault()) &&
+				(!compressor.getCompressorNotConnectedFault() || compressor.getCompressorNotConnectedStickyFault()) &&
+				(!compressor.getCompressorShortedFault() || compressor.getCompressorShortedStickyFault());
 	}	
 	
 	public boolean getPressure(){

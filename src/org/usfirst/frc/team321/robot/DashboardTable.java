@@ -1,38 +1,33 @@
 package org.usfirst.frc.team321.robot;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
 
-@SuppressWarnings("deprecation")
 public class DashboardTable {
 
-    private NetworkTable networkTable;
+    private NetworkTableEntry autoModeEntry, matchTimeEntry;
 
     DashboardTable() {
+        NetworkTableInstance networkTableInstance = NetworkTableInstance.getDefault();
+        NetworkTable networkTable = networkTableInstance.getTable("data");
 
-        networkTable = NetworkTable.getTable("data");
+        autoModeEntry = networkTable.getEntry("/autoMode/selectedMode");
+        matchTimeEntry = networkTable.getEntry("/match/time");
 
-        networkTable.addTableListener("autoMode/selectedMode", (source, key, value, isNew) -> Robot.autoMode = value.toString(), true);
-        networkTable.addTableListener(new ITableListener() {
-			
-			@Override
-			public void valueChanged(ITable source, String key, Object value, boolean isNew) {
-				Robot.autoMode = source.getString("autoMode/selectedMode", "DoNothingFailsafe");
-				if(key.equals("autoMode/selectedMode")){
-					Robot.autoMode = key.toString();
-				}
-			}
-		}, true);
+        networkTable.addEntryListener("", (table, key, entry, value, flags) -> {
+            Robot.autoMode = value.getString();
+        }, EntryListenerFlags.kUpdate);
     }
 
     public void update() {
-        networkTable.putNumber("match/time", Timer.getMatchTime());
+        matchTimeEntry.forceSetDouble(Timer.getMatchTime());
         Robot.autoMode = getAutoMode();
     }
 
     public String getAutoMode() {
-        return networkTable.getString("autoMode/selectedMode", "DoNothingFailsafe");
+        return autoModeEntry.getString("DoNothingFailsafe");
     }
 }

@@ -3,103 +3,63 @@ package org.usfirst.frc.team321.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc.team321.robot.Constants;
-import org.usfirst.frc.team321.robot.commands.UseDrivetrain;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-/**
- *
- */
-public class Drivetrain extends Subsystem {
-	private TalonSRX masterLeft, slaveLeft1, slaveLeft2, masterRight, slaveRight1, slaveRight2;
-	
-	public Drivetrain() {
-        masterLeft = new TalonSRX(Constants.TOPLEFT);
-        slaveLeft1 = new TalonSRX(Constants.MIDLEFT);
-        slaveLeft2 = new TalonSRX(Constants.BOTLEFT);
+import static org.usfirst.frc.team321.robot.Constants.*;
 
-        masterRight = new TalonSRX(Constants.TOPRIGHT);
-        slaveRight1 = new TalonSRX(Constants.MIDRIGHT);
-        slaveRight2 = new TalonSRX(Constants.BOTRIGHT);
-		
-		setUpTalons();
-	}
+public class Drivetrain {
+    private WPI_TalonSRX master, slave1, slave2;
 
-    public void setLeftMotors(ControlMode mode, double value) {
-        if (mode == ControlMode.Follower) {
-            slaveLeft1.set(mode, value);
-            slaveLeft2.set(mode, value);
-        } else {
-            masterLeft.set(mode, value);
-            slaveLeft1.set(mode, value);
-            slaveLeft2.set(mode, value);
+    public Drivetrain(boolean invert, int... ports) {
+        master = new WPI_TalonSRX(ports[0]);
+        slave1 = new WPI_TalonSRX(ports[1]);
+        slave2 = new WPI_TalonSRX(ports[2]);
+
+        setMotors(ControlMode.Follower, master.getDeviceID());
+
+        master.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PIDLoopIDX, TIMEOUT);
+        master.configAllowableClosedloopError(PIDLoopIDX, 400, TIMEOUT);
+        master.configPeakOutputForward(1, TIMEOUT);
+        master.configPeakOutputReverse(-1, TIMEOUT);
+        master.configNominalOutputForward(0, TIMEOUT);
+        master.configNominalOutputReverse(0, TIMEOUT);
+        master.configOpenloopRamp(0, TIMEOUT);
+        master.configClosedloopRamp(0, TIMEOUT);
+        master.setNeutralMode(NeutralMode.Brake);
+        master.config_kF(PIDLoopIDX, kF, TIMEOUT);
+        master.config_kP(PIDLoopIDX, kP, TIMEOUT);
+        master.config_kI(PIDLoopIDX, kI, TIMEOUT);
+        master.config_kD(PIDLoopIDX, kD, TIMEOUT);
+
+        if (invert) {
+            invert();
         }
-	}
-
-    public void setRightMotors(ControlMode mode, double value) {
-        if (mode == ControlMode.Follower) {
-            slaveRight1.set(mode, value);
-            slaveRight2.set(mode, value);
-        } else {
-            masterRight.set(mode, value);
-            slaveRight1.set(mode, value);
-            slaveRight2.set(mode, value);
-        }
-	}
-
-	public void initDefaultCommand() {
-		setDefaultCommand(new UseDrivetrain());
-	}
-	
-	private void setUpTalons() {
-        setLeftMotors(ControlMode.Follower, masterLeft.getDeviceID());
-        setRightMotors(ControlMode.Follower, masterRight.getDeviceID());
-
-        masterLeft.configPeakOutputForward(1, Constants.TIMEOUT);
-        masterLeft.configPeakOutputReverse(-1, Constants.TIMEOUT);
-        masterLeft.configNominalOutputForward(0, Constants.TIMEOUT);
-        masterLeft.configNominalOutputReverse(0, Constants.TIMEOUT);
-        masterLeft.configOpenloopRamp(0, Constants.TIMEOUT);
-        masterLeft.configClosedloopRamp(0, Constants.TIMEOUT);
-        masterLeft.setNeutralMode(NeutralMode.Brake);
-        masterLeft.setSensorPhase(true);
-        masterLeft.config_kF(Constants.PIDLoopIDX, Constants.kF, Constants.TIMEOUT);
-        masterLeft.config_kP(Constants.PIDLoopIDX, Constants.kP, Constants.TIMEOUT);
-        masterLeft.config_kI(Constants.PIDLoopIDX, Constants.kI, Constants.TIMEOUT);
-        masterLeft.config_kD(Constants.PIDLoopIDX, Constants.kD, Constants.TIMEOUT);
-        masterLeft.setInverted(true);
-        slaveLeft1.setInverted(true);
-        slaveLeft2.setInverted(true);
-
-        masterRight.configPeakOutputForward(1, Constants.TIMEOUT);
-        masterRight.configPeakOutputReverse(-1, Constants.TIMEOUT);
-        masterRight.configNominalOutputForward(0, Constants.TIMEOUT);
-        masterRight.configNominalOutputReverse(0, Constants.TIMEOUT);
-        masterRight.configOpenloopRamp(0, Constants.TIMEOUT);
-        masterRight.configClosedloopRamp(0, Constants.TIMEOUT);
-        masterRight.setNeutralMode(NeutralMode.Brake);
-        masterRight.setSensorPhase(false);
-        masterRight.setInverted(false);
-        masterRight.config_kF(Constants.PIDLoopIDX, Constants.kF, Constants.TIMEOUT);
-        masterRight.config_kP(Constants.PIDLoopIDX, Constants.kP, Constants.TIMEOUT);
-        masterRight.config_kI(Constants.PIDLoopIDX, Constants.kI, Constants.TIMEOUT);
-        masterRight.config_kD(Constants.PIDLoopIDX, Constants.kD, Constants.TIMEOUT);
-	}
-
-    public TalonSRX getLeftMaster() {
-		return masterLeft;
-	}
-
-    public TalonSRX getRightMaster() {
-		return masterRight;
-	}
-
-    public TalonSRX getLeftSlave() {
-        return slaveLeft1;
     }
 
-    public TalonSRX getRightSlave() {
-        return slaveRight1;
+    public void setMotors(ControlMode mode, double value) {
+        if (mode == ControlMode.Follower) {
+            slave1.set(mode, value);
+            slave2.set(mode, value);
+        } else {
+            master.set(mode, value);
+        }
+    }
+
+    public void invert() {
+        master.setInverted(true);
+        slave1.setInverted(true);
+        slave2.setInverted(true);
+    }
+
+    public WPI_TalonSRX getMaster() {
+        return master;
+    }
+
+    public WPI_TalonSRX[] getSlaves() {
+        WPI_TalonSRX[] slaves = new WPI_TalonSRX[2];
+        slaves[0] = slave1;
+        slaves[1] = slave2;
+
+        return slaves;
     }
 }

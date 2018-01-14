@@ -22,7 +22,7 @@ public class GearShifter extends Subsystem {
 	}
 	
 	public boolean isHighGear() {
-		return (gearShifter.get() == DoubleSolenoid.Value.kForward ? false : true);
+		return (gearShifter.get() == DoubleSolenoid.Value.kForward);
 	}
 
 	@Override
