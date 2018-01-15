@@ -13,5 +13,5 @@ public class OI {
 
     OI() {
         drive.RT().whileHeld(new SolenoidHold(Robot.gearShifter, Robot.gearShifter.gearShifter, DoubleSolenoid.Value.kForward));
-	}
+    }
 }

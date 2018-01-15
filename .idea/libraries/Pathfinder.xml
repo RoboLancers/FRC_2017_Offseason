@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Pathfinder">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Desktop/Pathfinder-master/Pathfinder-Java/build/libs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/Desktop/Pathfinder-master/Pathfinder-Java/build/libs" />
+    </SOURCES>
+    <jarDirectory url="file://$USER_HOME$/Desktop/Pathfinder-master/Pathfinder-Java/build/libs" recursive="false" />
+    <jarDirectory url="file://$USER_HOME$/Desktop/Pathfinder-master/Pathfinder-Java/build/libs" recursive="false" type="SOURCES" />
+  </library>
+</component>
