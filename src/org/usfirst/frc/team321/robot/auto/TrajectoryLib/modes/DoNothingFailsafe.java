@@ -1,6 +1,6 @@
-package org.usfirst.frc.team321.robot.auto.modes;
+package org.usfirst.frc.team321.robot.auto.TrajectoryLib.modes;
 
-import org.usfirst.frc.team321.robot.auto.AutonomousMode;
+import org.usfirst.frc.team321.robot.auto.TrajectoryLib.AutonomousMode;
 
 public class DoNothingFailsafe extends AutonomousMode {
 

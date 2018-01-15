@@ -1,4 +1,4 @@
-package org.usfirst.frc.team321.robot.auto;
+package org.usfirst.frc.team321.robot.auto.TrajectoryLib;
 
 import org.usfirst.frc.team321.robot.Robot;
 

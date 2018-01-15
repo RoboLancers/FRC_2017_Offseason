@@ -1,4 +1,4 @@
-package org.usfirst.frc.team321.robot.auto.modes;
+package org.usfirst.frc.team321.robot.auto.TrajectoryLib.modes;
 
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.PathGenerator;
@@ -6,7 +6,7 @@ import com.team254.lib.trajectory.WaypointSequence;
 import org.usfirst.frc.team321.robot.Constants;
 import org.usfirst.frc.team321.robot.DrivetrainProfileDriver;
 import org.usfirst.frc.team321.robot.Robot;
-import org.usfirst.frc.team321.robot.auto.AutonomousMode;
+import org.usfirst.frc.team321.robot.auto.TrajectoryLib.AutonomousMode;
 
 public class AutoRunSideSwitch extends AutonomousMode {
     private static final String name = "AutoRunSideSwitch";

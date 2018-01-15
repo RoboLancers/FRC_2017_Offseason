@@ -1,6 +1,7 @@
 package org.usfirst.frc.team321.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import org.usfirst.frc.team321.robot.commands.SelectMode;
 import org.usfirst.frc.team321.robot.commands.SolenoidHold;
 import org.usfirst.frc.team321.robot.utilities.LogitechController;
 
@@ -13,5 +14,6 @@ public class OI {
 
     OI() {
         drive.RT().whileHeld(new SolenoidHold(Robot.gearShifter, Robot.gearShifter.gearShifter, DoubleSolenoid.Value.kForward));
+        drive.Y().whenPressed(new SelectMode());
     }
 }
