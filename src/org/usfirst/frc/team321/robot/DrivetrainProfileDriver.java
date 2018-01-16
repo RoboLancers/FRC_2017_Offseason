@@ -11,16 +11,20 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DrivetrainProfileDriver {
-	private double dtSeconds;
+
 	private ArrayList<Segment> leftVelPts, rightVelPts;
 	private int numPoints;
 	private Trajectory lt, rt;
-	private boolean running = false, done = false;
 	private long step;
+    private double dtSeconds;
+
+    private boolean running = false, done = false;
 	private boolean runBACKWARDS = false;
 	private AtomicBoolean interrupt = new AtomicBoolean(false);
 	private long startTime;
 	private boolean firstTime;
+
+    private double error, turn;
 
     public DrivetrainProfileDriver(Path path) {
         //this.path = path;
@@ -60,13 +64,16 @@ public class DrivetrainProfileDriver {
 	    	try {
                 if (interrupt.get()) throw new Exception("Interrupting profile");
 
+                error = rightVelPts.get((int) step).heading - Robot.sensors.getRobotHeading();
+                turn = error * 0.2;
+
 	    		if (runBACKWARDS){
-                    Robot.rightDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel));
-                    Robot.leftDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel));
+                    Robot.rightDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel) + turn);
+                    Robot.leftDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel) - turn);
                     System.out.println("Running: " + Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel));
 	    		} else {
-                    Robot.leftDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel));
-                    Robot.rightDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel));
+                    Robot.leftDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel) + turn);
+                    Robot.rightDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel) - turn);
 	    			System.out.println("Running: " + Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
 	    		}
 	    	} catch (Exception e) {
