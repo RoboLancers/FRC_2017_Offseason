@@ -68,12 +68,16 @@ public class DrivetrainProfileDriver {
                 turn = error * 0.2;
 
 	    		if (runBACKWARDS){
-                    Robot.rightDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel) + turn);
-                    Robot.leftDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel) - turn);
+                    /*Robot.rightDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel) + turn);
+                    Robot.leftDrive.setMotors(ControlMode.Velocity, -Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel) - turn);*/
+                    Robot.rightDrive.setMotors(ControlMode.PercentOutput, -Utilities.feetPerSecondToMotorOutput(rightVelPts.get((int) step).vel) + turn);
+                    Robot.leftDrive.setMotors(ControlMode.PercentOutput, -Utilities.feetPerSecondToMotorOutput(leftVelPts.get((int) step).vel) - turn);
                     System.out.println("Running: " + Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel));
 	    		} else {
-                    Robot.leftDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel) + turn);
-                    Robot.rightDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel) - turn);
+                    /*Robot.leftDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(leftVelPts.get((int) step).vel) + turn);
+                    Robot.rightDrive.setMotors(ControlMode.Velocity, Utilities.feetPerSecondToRPM(rightVelPts.get((int) step).vel) - turn);*/
+                    Robot.rightDrive.setMotors(ControlMode.PercentOutput, -Utilities.feetPerSecondToMotorOutput(rightVelPts.get((int) step).vel) + turn);
+                    Robot.leftDrive.setMotors(ControlMode.PercentOutput, -Utilities.feetPerSecondToMotorOutput(leftVelPts.get((int) step).vel) - turn);
 	    			System.out.println("Running: " + Utilities.feetPerSecondToRPM(leftVelPts.get((int)step).vel));
 	    		}
 	    	} catch (Exception e) {

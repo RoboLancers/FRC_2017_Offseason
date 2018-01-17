@@ -11,6 +11,10 @@ public class Utilities {
 		return ((ftPerSec * Constants.nativePerFoot * 60.0) / 1024.0);//Originally 4096
 	}
 
+    public static double feetPerSecondToMotorOutput(double ftPerSec) {
+        return feetPerSecondToRPM(ftPerSec) * 0.0002315; //Motor under load = 4320 rpm and assume linear relationship for testing purposes
+    }
+
     public static double limit(double value, double max) {
         return limit(value, -max, max);
     }
