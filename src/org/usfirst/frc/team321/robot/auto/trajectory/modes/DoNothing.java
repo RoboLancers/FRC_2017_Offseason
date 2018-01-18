@@ -1,6 +1,6 @@
-package org.usfirst.frc.team321.robot.auto.TrajectoryLib.modes;
+package org.usfirst.frc.team321.robot.auto.trajectory.modes;
 
-import org.usfirst.frc.team321.robot.auto.TrajectoryLib.AutonomousMode;
+import org.usfirst.frc.team321.robot.auto.trajectory.AutonomousMode;
 
 public class DoNothing extends AutonomousMode {
 

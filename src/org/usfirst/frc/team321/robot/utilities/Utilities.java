@@ -15,6 +15,18 @@ public class Utilities {
         return feetPerSecondToRPM(ftPerSec) * 0.0002315; //Motor under load = 4320 rpm and assume linear relationship for testing purposes
     }
 
+    public static double[] calcTurn(double power, double currentAngle, double targetAngle) {
+        double[] motorSpeed = new double[2];
+
+        motorSpeed[0] = limit(power + (currentAngle - targetAngle) / 100, 1);
+        motorSpeed[1] = limit(power - (currentAngle - targetAngle) / 100, 1);
+
+        motorSpeed[0] = floor(motorSpeed[0], 2);
+        motorSpeed[1] = floor(motorSpeed[1], 2);
+
+        return motorSpeed;
+    }
+
     public static double limit(double value, double max) {
         return limit(value, -max, max);
     }

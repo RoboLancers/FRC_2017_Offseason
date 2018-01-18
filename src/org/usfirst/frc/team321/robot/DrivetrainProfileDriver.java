@@ -5,12 +5,13 @@ import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.Trajectory;
 import com.team254.lib.trajectory.Trajectory.Segment;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team321.robot.utilities.Utilities;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class DrivetrainProfileDriver {
+public class DrivetrainProfileDriver extends Command {
 
 	private ArrayList<Segment> leftVelPts, rightVelPts;
 	private int numPoints;
@@ -27,6 +28,8 @@ public class DrivetrainProfileDriver {
     private double error, turn;
 
     public DrivetrainProfileDriver(Path path) {
+        requires(Robot.leftDrive);
+        requires(Robot.rightDrive);
         //this.path = path;
         this.leftVelPts = new ArrayList<Segment>();
         this.rightVelPts = new ArrayList<Segment>();
@@ -92,6 +95,11 @@ public class DrivetrainProfileDriver {
 	public void interruptProfile() {
 		interrupt.set(true);
 	}
+
+    @Override
+    protected boolean isFinished() {
+        return !isRunning();
+    }
 
 	public boolean isRunning() {
 		return running;

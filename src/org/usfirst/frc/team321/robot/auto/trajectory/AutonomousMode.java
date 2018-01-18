@@ -1,4 +1,4 @@
-package org.usfirst.frc.team321.robot.auto.TrajectoryLib;
+package org.usfirst.frc.team321.robot.auto.trajectory;
 
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.TrajectoryGenerator;

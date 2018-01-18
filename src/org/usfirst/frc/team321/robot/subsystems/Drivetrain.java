@@ -4,10 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 import static org.usfirst.frc.team321.robot.Constants.*;
 
-public class Drivetrain {
+public class Drivetrain extends Subsystem {
     private WPI_TalonSRX master, slave1, slave2;
 
     public Drivetrain(boolean invert, int... ports) {
@@ -61,5 +62,10 @@ public class Drivetrain {
         slaves[1] = slave2;
 
         return slaves;
+    }
+
+    @Override
+    protected void initDefaultCommand() {
+
     }
 }

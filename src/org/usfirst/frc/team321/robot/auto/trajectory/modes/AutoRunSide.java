@@ -1,11 +1,11 @@
-package org.usfirst.frc.team321.robot.auto.TrajectoryLib.modes;
+package org.usfirst.frc.team321.robot.auto.trajectory.modes;
 
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.PathGenerator;
 import com.team254.lib.trajectory.WaypointSequence;
 import org.usfirst.frc.team321.robot.Constants;
 import org.usfirst.frc.team321.robot.DrivetrainProfileDriver;
-import org.usfirst.frc.team321.robot.auto.TrajectoryLib.AutonomousMode;
+import org.usfirst.frc.team321.robot.auto.trajectory.AutonomousMode;
 
 public class AutoRunSide extends AutonomousMode {
 

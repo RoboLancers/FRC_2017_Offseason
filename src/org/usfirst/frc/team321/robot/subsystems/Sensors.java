@@ -33,4 +33,8 @@ public class Sensors {
     public double getRobotDisplacement() {
         return Utilities.floor(Math.hypot(navX.getDisplacementX(), navX.getDisplacementY()), 2);
     }
+
+    public AHRS getNavX() {
+        return navX;
+    }
 }

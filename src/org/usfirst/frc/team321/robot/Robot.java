@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team321.robot.auto.Pathfinder.PathfinderEngine;
+import org.usfirst.frc.team321.robot.auto.trajectory.AutonomousEngine;
 import org.usfirst.frc.team321.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team321.robot.subsystems.GearShifter;
 import org.usfirst.frc.team321.robot.subsystems.Pneumatics;
@@ -33,10 +33,8 @@ public class Robot extends TimedRobot {
 	public static String gameData = "   ";
 	public static String autoMode = "DoNothingFailsafe";
 
-    public static PathfinderEngine pathfinderEngine;
-    private static Thread pathfinderThread = null;
-    /*private AutonomousEngine autoEngine;
-    private Thread autoThread = null;*/
+    private AutonomousEngine autoEngine;
+    private Thread autoThread = null;
 	private boolean autoModeRan = false;
 
 	/**
@@ -53,8 +51,7 @@ public class Robot extends TimedRobot {
 		dashboardTable = new DashboardTable();
 		oi = new OI();
 
-        //autoEngine = new AutonomousEngine();
-        pathfinderEngine = new PathfinderEngine();
+        autoEngine = new AutonomousEngine();
         drive = new DifferentialDrive(leftDrive.getMaster(), rightDrive.getMaster());
 	}
 	
@@ -75,12 +72,9 @@ public class Robot extends TimedRobot {
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		
 		autoMode = dashboardTable.getAutoMode();
-		
-		/*autoThread = new Thread(autoEngine);
-		autoThread.start();*/
 
-        pathfinderThread = new Thread(pathfinderEngine);
-        pathfinderThread.start();
+        autoThread = new Thread(autoEngine);
+        autoThread.start();
 
 		autoModeRan = true;
 	}
@@ -110,14 +104,10 @@ public class Robot extends TimedRobot {
 		if (autoModeRan) {
 			autoModeRan = false;
 
-			/*if (autoThread.isAlive()) {
+            if (autoThread.isAlive()) {
 				autoThread.interrupt();
 			}else{
 				System.out.println("Ending Auto");
-			}*/
-
-            if (pathfinderThread.isAlive()) {
-                pathfinderThread.interrupt();
             }
 		}
 		Scheduler.getInstance().run();
