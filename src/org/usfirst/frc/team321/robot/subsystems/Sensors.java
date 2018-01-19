@@ -18,6 +18,10 @@ public class Sensors {
         return Utilities.floor(navX.getAngle(), 2);
     }
 
+    public double getFusedHeading() {
+        return navX.getFusedHeading();
+    }
+
     public double getRobotHeading() {
         if (navX.getAngle() < 0) {
             return Utilities.floor(360 - Math.abs(navX.getAngle() % 360), 2);

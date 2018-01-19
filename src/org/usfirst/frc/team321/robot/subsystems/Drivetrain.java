@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team321.robot.commands.UseDrivetrain;
 
 import static org.usfirst.frc.team321.robot.Constants.*;
 
@@ -33,7 +34,9 @@ public class Drivetrain extends Subsystem {
         master.config_kD(PIDLoopIDX, kD, TIMEOUT);
 
         if (invert) {
-            invert();
+            master.setInverted(true);
+            slave1.setInverted(true);
+            slave2.setInverted(true);
         }
     }
 
@@ -44,12 +47,6 @@ public class Drivetrain extends Subsystem {
         } else {
             master.set(mode, value);
         }
-    }
-
-    public void invert() {
-        master.setInverted(true);
-        slave1.setInverted(true);
-        slave2.setInverted(true);
     }
 
     public WPI_TalonSRX getMaster() {
@@ -66,6 +63,6 @@ public class Drivetrain extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-
+        setDefaultCommand(new UseDrivetrain());
     }
 }

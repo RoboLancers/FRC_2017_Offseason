@@ -1,6 +1,7 @@
-package org.usfirst.frc.team321.robot.utilities;
+package org.usfirst.frc.team321.robot.utilities.controllers;
 
 import edu.wpi.first.wpilibj.buttons.Button;
+import org.usfirst.frc.team321.robot.utilities.Utilities;
 
 public class XboxController extends Controller {
 	
